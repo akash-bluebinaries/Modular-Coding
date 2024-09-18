@@ -31,7 +31,7 @@ list_of_files = [
     "requirements.txt",
     "Dockerfile",
     "README.md",
-    "Pipfile",
+    # "Pipfile",
     ".dockerignore",
 ]
 
