@@ -3,7 +3,7 @@ from pathlib import Path
 import logging
 
 while True:
-    project_name = input("Enter your project name: ")
+    project_name = input("Enter your project name: ") # src
     if project_name !="":
         break
 
@@ -31,7 +31,7 @@ list_of_files = [
     "requirements.txt",
     "Dockerfile",
     "README.md",
-    # "Pipfile",
+    "pipline.txt",
     ".dockerignore",
 ]
 
