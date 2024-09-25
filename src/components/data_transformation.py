@@ -32,8 +32,6 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
             df.drop(['ID','Restaurant_latitude','Restaurant_longitude',
                      'Delivery_location_latitude','Delivery_location_longitude',
                      'Delivery_person_ID','Order_Date','Time_Orderd','Time_Order_picked'], axis=1, inplace=True)
-            
-            logging.info('Dropping Columns from Original Dataset')
 
             return df
 
@@ -111,14 +109,16 @@ class DataTransformation:
         
     def initiate_data_transformation(self, train_path, test_path):
         try:
-            logging.info("Loading train & test data for preprocessing & feature engineering")
+            logging.info("Data transformation initiated")
+
+            logging.info("Loading train & test set")
             train_df = pd.read_csv(train_path)
             test_df = pd.read_csv(test_path)
-            logging.info("Data Loaded")
+            
 
-            logging.info("Loading Feature Engineering Object")
+            logging.info("Getting feature engineering object")
             fe_obj = self.get_feature_engg_obj()
-            logging.info("Applying Feature Engineering")
+            logging.info("Applying Feature Engineering on train & test data")
             train_df = fe_obj.fit_transform(train_df)
             test_df = fe_obj.transform(test_df)
 
@@ -130,18 +130,19 @@ class DataTransformation:
             X_test = test_df.drop('Time_taken (min)', axis=1)
             y_test = test_df['Time_taken (min)']
 
-            logging.info(f"Shape of X_train:{X_train.shape}\nShape of X_test:{X_test.shape}\nShape of y_train:{y_train.shape}\nShape of y_test:{y_test.shape}")
-
+            logging.info("Getting preprocessing object")
             processing_obj = self.get_data_transformation_obj()
-            logging.info("Applying preprocessing object to X_train & X_test")
+
+            logging.info("Applying preprocessing object to train & test data")
             X_train = processing_obj.fit_transform(X_train)
             X_test = processing_obj.transform(X_test)
-            logging.info("Data Preprocessed Sucessfully")
 
+        
+            logging.info("Concatenating Independent & Target variable after preprocessing")
             train_arr = np.c_[X_train, np.array(y_train)]
             test_arr = np.c_[X_test, np.array(y_test)]
-            logging.info("Target variable added back to train & test arrays")
 
+            logging.info("Converting numpy array to pandas dataframe and saving to Artifact/data_transformation/transformation directory")
             df_train = pd.DataFrame(train_arr)
             df_test = pd.DataFrame(test_arr)
 
@@ -150,11 +151,6 @@ class DataTransformation:
 
             os.makedirs(os.path.dirname(self.data_transformation_config.transformed_test_path), exist_ok=True)
             df_test.to_csv(self.data_transformation_config.transformed_test_path, index=False)
-
-            # save_object(self.data_transformation_config.processed_obj_file_path, obj=fe_obj)
-            
-            # save_object(self.data_transformation_config.feature_engg_obj_path, obj=fe_obj)
-
 
             return (
                 train_arr,
