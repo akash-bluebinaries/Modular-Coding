@@ -14,7 +14,14 @@ while True:
 list_of_files = [
     f"{project_name}/__init__.py",
     f"{project_name}/components/__init__.py",
+    f"{project_name}/components/data_ingestion.py",
+    f"{project_name}/components/data_transformation.py",
+    f"{project_name}/components/model_trainer.py",
+
+
     f"{project_name}/config/__init__.py",
+    f"{project_name}/config/configuration.py",
+    
     f"{project_name}/constants/__init__.py",
     f"{project_name}/entity/__init__.py",
     f"{project_name}/exception/__init__.py",

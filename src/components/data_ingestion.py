@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from src.logger import logging
 from src.exception import CustomException
 from src.components.data_transformation import DataTransformation, DataTransformationConfig
+from src.components.model_trainer import ModelTrainer, ModelTrainerConfig
 from src.config.configuration import *
 
 @dataclass
@@ -60,9 +61,14 @@ if __name__ == "__main__":
     obj = DataIngestion()
     train_path, test_path = obj.initate_data_ingestion()
     
-    logging.info("*** Data ingestion completed & Data Transformation Started ***")
+    logging.info("*** Data ingestion completed & Data transformation started ***")
 
     data_transformation = DataTransformation()
     train_arr, test_arr = data_transformation.initiate_data_transformation(train_path, test_path)
     
-    logging.info("*** Data transformation completed ***")
+    logging.info("*** Data transformation completed & Model training started***")
+
+    model_trainer = ModelTrainer()
+    model_trainer.initiate_model_trainer(train_arr, test_arr)
+    
+    logging.info("*** Model training completed ***")
